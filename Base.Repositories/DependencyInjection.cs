@@ -1,5 +1,7 @@
 ﻿
 using Base.Repositories.Common;
+using Base.Repositories.IRepository;
+using Base.Repositories.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +26,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         #region Repository
         //services.AddScoped<IUserRepository, UserRepository>();
-        //services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         //services.AddScoped<IItemRepository, ItemRepository>();
         //services.AddScoped<ILocationRepository, LocationRepository>();
         //services.AddScoped<IRouteRepository, RouteRepository>();

@@ -1,3 +1,5 @@
+using Base.API.ApplicationMapper;
+using Base.API.RabbitMQ;
 using Base.Repositories;
 using Base.Services;
 
@@ -9,6 +11,8 @@ var Configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddRepository(Configuration);
 builder.Services.AddService(Configuration);
+builder.Services.AddScoped<IRabbitMQService,RabbitMQService>();
+builder.Services.AddAutoMapper(typeof(ApplicationMapper));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
