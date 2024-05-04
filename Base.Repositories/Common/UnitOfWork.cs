@@ -10,6 +10,7 @@ namespace Base.Repositories.Common
     public interface IUnitOfWork
     {
         IProductRepository Product { get; }
+        IUserRepository User { get; }
         Task<bool> SaveChangesAsync();
 
     }
@@ -19,10 +20,14 @@ namespace Base.Repositories.Common
         private readonly ApplicationDbContext _applicationDbContext;
         public IProductRepository Product { get; private set; }
 
-        public UnitOfWork(ApplicationDbContext applicationDbContext, IProductRepository product)
+        public IUserRepository User { get; private set; }
+
+        public UnitOfWork(ApplicationDbContext applicationDbContext, IProductRepository product, IUserRepository user)
         {
             _applicationDbContext = applicationDbContext;
             Product = product;
+            User = user;
+
         }
 
         public void Dispose()

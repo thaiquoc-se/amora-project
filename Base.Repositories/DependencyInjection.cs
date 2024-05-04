@@ -25,8 +25,9 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         #region Repository
-        //services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+       
         //services.AddScoped<IItemRepository, ItemRepository>();
         //services.AddScoped<ILocationRepository, LocationRepository>();
         //services.AddScoped<IRouteRepository, RouteRepository>();

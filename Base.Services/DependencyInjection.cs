@@ -16,7 +16,7 @@ public static class DependencyInjection
     public static IServiceCollection AddService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IProductService, ProductService>();
-
+        services.AddScoped<IUserService, UserService>();
         return services;
     }
 }

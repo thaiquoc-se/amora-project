@@ -4,6 +4,7 @@ using Base.Repositories.Models;
 using Base.Services.IService;
 using Base.Services.ViewModel.RequestVM;
 using Base.Services.ViewModel.ResponseVM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,13 +50,15 @@ namespace Base.API.Controllers
                 var result = await _productService.Create(newProduct);
                 if (result.IsSuccess)
                 {
-                    _rabbitMQService.SendingMessage<ProductVM>(entity, "product_queue");
+
+                    _rabbitMQService.SendingMessage<ProductVM>(entity, "amora_logs","product_queue","new_product");
                     return Ok(_mapper.Map<ProductResponse>(result.Result));
                 }
                 return BadRequest(result.Errors);
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
             }
         }

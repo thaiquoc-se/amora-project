@@ -11,4 +11,5 @@ namespace Base.Repositories.IRepository;
 
 public interface IUserRepository : IBaseRepository<User, int>
 {
+
 }

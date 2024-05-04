@@ -13,6 +13,9 @@ namespace Base.API.ApplicationMapper
                                             .MapFrom(src => src.Category!.CategoryName))
                                             .ReverseMap();
             CreateMap<Product, ProductVM>().ReverseMap();
+            CreateMap<User, UserResponse>().ForMember(dest => dest.RoleName, opt => opt
+                                           .MapFrom(src => src.Role!.RoleName))
+                                           .ReverseMap();
         }
     }
 }

@@ -7,26 +7,40 @@ namespace Base.API.RabbitMQ
 {
     public class RabbitMQService : IRabbitMQService
     {
-        public void SendingMessage<T>(T message, string queueName)
+        private readonly IConfiguration _configuration;
+        public RabbitMQService(IConfiguration configuration)
+        {
+
+            _configuration = configuration;
+
+        }
+        public void SendingMessage<T>(T message, string exchangeName, string queueName, string routingKey)
         {
             ConnectionFactory factory = new ConnectionFactory()
             {
-                HostName = "localhost",
-                UserName = "admin",
-                Password = "123456",
-                Port = 5672,
+                HostName = _configuration["RabbitMQ:HostName"],
+                UserName = _configuration["RabbitMQ:UserName"],
+                Password = _configuration["RabbitMQ:Password"],
+                Port = int.Parse(_configuration["RabbitMQ:Port"]),
             };
             var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
-            channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false);
+            // Declare the exchange
+            channel.ExchangeDeclare(exchange: exchangeName,durable:true,type: ExchangeType.Direct);
+
+            // Declare the queue
+            channel.QueueDeclare(queue: queueName, durable: false, exclusive: false, autoDelete: true);
+
+            // Bind the queue to the exchange with the routing key
+            channel.QueueBind(queue: queueName, exchange: exchangeName, routingKey: routingKey);
 
             var jsonString = JsonSerializer.Serialize(message);
-
             var body = Encoding.UTF8.GetBytes(jsonString);
 
-            channel.BasicPublish(exchange: "", routingKey: queueName, body: body);
-            Console.WriteLine("Connection successful!");
+            // Publish the message to the exchange with the specified routing key
+            channel.BasicPublish(exchange: exchangeName, routingKey: routingKey, body: body);
+            Console.WriteLine("Message sent successfully!");
         }
     }
 }
