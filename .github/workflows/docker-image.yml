@@ -3,7 +3,7 @@ name: Build, publish, test and containerize to image
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
