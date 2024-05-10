@@ -24,6 +24,7 @@ namespace Base.API.Controllers
             _rabbitMQService = rabbitMQService;
         }
         [HttpGet]
+        [ProducesResponseType(typeof(List<Product>), 200)]
         public async Task<IActionResult> GetAllProduct(int pageSize = 10, int pageIndex = 0)
         {
             try
