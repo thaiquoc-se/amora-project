@@ -75,11 +75,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    
 }
 
-app.UseHttpsRedirection();
+
 app.UseStatusCodePages(async context =>
 {
     if (context.HttpContext.Response.StatusCode == 401)
@@ -106,6 +105,9 @@ app.UseStatusCodePages(async context =>
         await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(responseBody));
     }
 });
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
