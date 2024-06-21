@@ -27,6 +27,11 @@ jobs:
           docker build -t qshu911/amorashop .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push qshu911/amorashop
+      - name: Export SSH key
+        run: |
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ssh_key
+          chmod 600 ssh_key
+          cat ssh_key
       - name: SSH into server and deploy
         uses: appleboy/ssh-action@v0.1.5
         with:
