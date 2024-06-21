@@ -35,6 +35,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
               docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
-              docker stop amorashop || true
-              docker rm amorashop || true
+              docker stop my-app || true
+              docker rm my-app || true
               docker run -d --name my-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
