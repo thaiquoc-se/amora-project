@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Base.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace Base.Repositories.Common
 {
@@ -29,6 +30,19 @@ namespace Base.Repositories.Common
         {
             var result = await base.SaveChangesAsync(cancellationToken);
             return result;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", true, true)
+                    .Build();
+                var connectionString = configuration.GetConnectionString("ConnectionStrings");
+                
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -171,7 +185,7 @@ namespace Base.Repositories.Common
                     .HasMaxLength(50)
                     .HasColumnName("role_name");
             });
-
+           
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.UserId).HasColumnName("user_id");
@@ -214,6 +228,7 @@ namespace Base.Repositories.Common
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK__Users__role_id__267ABA7A");
+
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -27,3 +27,14 @@ jobs:
           docker build -t qshu911/amorashop .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push qshu911/amorashop
+      - name: SSH into server and deploy
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+              docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
+              docker stop amorashop || true
+              docker rm amorashop || true
+              docker run -d --name my-app -p 80:80 ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
