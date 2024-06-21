@@ -7,5 +7,16 @@ namespace Base.API.Controllers
     [ApiController]
     public class CDCompletedController : ControllerBase
     {
+        public CDCompletedController()
+        {
+            
+        }
+
+        [HttpGet]
+
+        public IActionResult Get()
+        {
+            return Ok("hello Khoa nha");
+        }
     }
 }
