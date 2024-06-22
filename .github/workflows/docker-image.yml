@@ -24,9 +24,9 @@ jobs:
 
       - name: Build docker image and push it to docker hub
         run: |
-          docker build -t qshu911/amorashop:test .
+          docker build -t qshu911/amorashop:latest .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push qshu911/amorashop:test
+          docker push qshu911/amorashop:latest
       
       - name: Pull docker image from docker hub and run on server
         uses: appleboy/ssh-action@v0.1.5
@@ -37,6 +37,6 @@ jobs:
           script: |             
               docker stop my-app || true
               docker rm my-app || true
-              docker rmi ${{ secrets.DOCKER_USERNAME }}/amorashop:test
-              docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:test
-              docker run --name my-app -p 80:80 -d ${{ secrets.DOCKER_USERNAME }}/amorashop:test
+              docker rmi ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
+              docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
+              docker run --name my-app -p 80:80 -d ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
