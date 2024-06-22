@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      DOCKER_IMAGE: qshu911/amorashop
+
     steps:
       - uses: actions/checkout@v2
 
@@ -24,9 +27,12 @@ jobs:
 
       - name: Build docker image and push it to docker hub
         run: |
-          docker build --no-cache -t qshu911/amorashop:latest .
+          IMAGE_TAG=${GITHUB_SHA::7}
+          docker build --no-cache -t $DOCKER_IMAGE:$IMAGE_TAG .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push qshu911/amorashop:latest
+          docker push $DOCKER_IMAGE:$IMAGE_TAG
+          docker tag $DOCKER_IMAGE:$IMAGE_TAG $DOCKER_IMAGE:latest
+          docker push $DOCKER_IMAGE:latest
       
       - name: Pull docker image from docker hub and run on server
         uses: appleboy/ssh-action@v0.1.5
@@ -37,6 +43,6 @@ jobs:
           script: |
               docker stop my-app || true
               docker rm my-app || true
-              docker rmi qshu911/amorashop:latest || true
-              docker pull qshu911/amorashop:latest
-              docker run --name my-app -p 80:80 -d qshu911/amorashop:latest
+              docker rmi $DOCKER_IMAGE:latest || true
+              docker pull $DOCKER_IMAGE:latest
+              docker run --name my-app -p 80:80 -d $DOCKER_IMAGE:latest
