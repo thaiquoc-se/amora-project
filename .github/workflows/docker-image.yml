@@ -27,6 +27,7 @@ jobs:
           docker build -t qshu911/amorashop:latest .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push qshu911/amorashop:latest
+          sleep 10
       
       - name: Pull docker image from docker hub and run on server
         uses: appleboy/ssh-action@v0.1.5
