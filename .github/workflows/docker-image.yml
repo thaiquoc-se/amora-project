@@ -34,9 +34,11 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |             
+          script: |
+              docker rmi qshu911/amorashop:latest || true
+              docker pull qshu911/amorashop:latest             
+              docker images qshu911/amorashop:latest
+              docker inspect qshu911/amorashop:latest
               docker stop my-app || true
               docker rm my-app || true
-              docker rmi ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
-              docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
-              docker run --name my-app -p 80:80 -d ${{ secrets.DOCKER_USERNAME }}/amorashop:latest
+              docker run --name my-app -p 80:80 -d qshu911/amorashop:latest
