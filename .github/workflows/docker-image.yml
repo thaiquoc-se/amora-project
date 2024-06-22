@@ -27,7 +27,7 @@ jobs:
 
       - name: Build docker image and push it to docker hub
         run: |
-          docker build --no-cache -t qshu911/amorashop:latest .
+          docker build --no-cache -t qshu911/amorashop .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push qshu911/amorashop:latest
           sleep 5
