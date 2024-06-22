@@ -10,7 +10,7 @@ namespace Base.API.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return Ok("CI/CD successfully");
+            return Ok("CI/CD successfully + 1 ?");
         }
     }
 }
