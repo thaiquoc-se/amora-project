@@ -16,7 +16,7 @@ namespace Base.API.Controllers
 
         public IActionResult Get()
         {
-            return Ok("Please Please");
+            return Ok("Please Please success");
         }
     }
 }
