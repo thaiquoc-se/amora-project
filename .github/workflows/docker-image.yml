@@ -34,8 +34,9 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-              docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:test
+          script: |             
               docker stop my-app || true
               docker rm my-app || true
+              docker rmi ${{ secrets.DOCKER_USERNAME }}/amorashop:test
+              docker pull ${{ secrets.DOCKER_USERNAME }}/amorashop:test
               docker run --name my-app -p 80:80 -d ${{ secrets.DOCKER_USERNAME }}/amorashop:test
