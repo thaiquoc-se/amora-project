@@ -27,12 +27,10 @@ jobs:
 
       - name: Build docker image and push it to docker hub
         run: |
-          IMAGE_TAG=${GITHUB_SHA::7}
-          docker build --no-cache -t qshu911/amorashop:$IMAGE_TAG .
+          docker build --no-cache -t qshu911/amorashop:latest .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push qshu911/amorashop:$IMAGE_TAG
-          docker tag qshu911/amorashop:$IMAGE_TAG qshu911/amorashop:latest
           docker push qshu911/amorashop:latest
+          sleep 5
       
       - name: Pull docker image from docker hub and run on server
         uses: appleboy/ssh-action@v0.1.5
