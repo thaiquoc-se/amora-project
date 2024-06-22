@@ -16,7 +16,7 @@ namespace Base.API.Controllers
 
         public IActionResult Get()
         {
-            return Ok("hehe sowj chua Khoa");
+            return Ok("Lần này mà không được là do Khoa Hết");
         }
     }
 }
