@@ -7,7 +7,8 @@ namespace Base.API.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        [HttpGet] public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index()
         {
             return Ok("CI/CD successfully");
         }
